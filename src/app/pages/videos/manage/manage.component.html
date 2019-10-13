@@ -1,0 +1,22 @@
+<nb-card>
+  <nb-card-header>Manage videos</nb-card-header>
+  <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteVideo($event)">
+        </ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #commentList>
+  <nb-card>
+    <nb-card-header>Comments List</nb-card-header>
+    <nb-card-body>
+      <div style="width: 500px;">
+          <nb-list>
+            <nb-list-item *ngFor="let comment of comments">
+              {{comment.message}}
+            </nb-list-item>
+          </nb-list>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

@@ -1,0 +1,57 @@
+<nb-card>
+  <nb-card-header>Upload Video</nb-card-header>
+  <nb-card-body>
+    <!-- title, thumbnail, description, timestamp-->
+
+    <div class="row">
+      <div class="col-md-6">
+        <file-pond
+          [options]="videoPondOptions"
+          (onaddfile)="videoSelected($event)">
+        </file-pond>
+      </div>
+      <div class="col-md-6">
+        <file-pond
+          [options]="thumbnailPondOptions"
+          (onaddfile)="thumbnailSelected($event)">
+        </file-pond>
+      </div>
+    </div>
+
+    <form (ngSubmit)="submitVideo()">
+      <div class="row">
+          <div class="form-group col-md-6">
+            <label>Title</label>
+            <input nbInput fullWidth placeholder="Title" name="title" [(ngModel)]="title">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Description</label>
+            <textarea nbInput fullWidth placeholder="Description" name="description" [(ngModel)]="description"></textarea>
+          </div>
+      </div>
+      <button *ngIf="title && description && video; else disabled" status="success" nbButton>Submit</button>
+      <ng-template #disabled>
+        <button status="success" disabled nbButton type="button">Submit</button>
+      </ng-template>
+    </form>
+
+  </nb-card-body>
+</nb-card>
+
+<ng-template #videoUploadProgress>
+  <nb-card>
+    <nb-card-header>Video upload in progress</nb-card-header>
+    <nb-card-body>
+        <nb-progress-bar [value]="videoUploadPercentage" [status]="videoUploadStatus">{{videoUploadPercentage | number : '1.0-0'}}%</nb-progress-bar>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
+
+<ng-template #thumbnailUploadProgress>
+  <nb-card>
+    <nb-card-header>Thumbnail upload in progress</nb-card-header>
+    <nb-card-body>
+        <nb-progress-bar [value]="thumbnailUploadPercentage" [status]="thumbnailUploadStatus">{{thumbnailUploadPercentage | number : '1.0-0'}}%</nb-progress-bar>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

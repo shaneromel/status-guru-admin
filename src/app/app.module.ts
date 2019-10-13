@@ -11,6 +11,7 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -20,6 +21,9 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +45,20 @@ import {
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
+    NbAuthModule.forRoot({
+      strategies:[
+        NbPasswordAuthStrategy.setup({
+          name:"email",
+          baseEndpoint:environment.rest_api,
+          login:{
+            endpoint:"/auth/login"
+          }
+        })
+      ]
+    }),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    NbToastrModule
   ],
   bootstrap: [AppComponent],
 })

@@ -10,4 +10,15 @@
 
 export const environment = {
   production: false,
+  rest_api:"http://localhost:3000",
+  firebase:{
+    apiKey: "AIzaSyAaRppvzkdPEhqK9TS_wMYqQ2juCdI60QY",
+    authDomain: "status-guru-a3da8.firebaseapp.com",
+    databaseURL: "https://status-guru-a3da8.firebaseio.com",
+    projectId: "status-guru-a3da8",
+    storageBucket: "status-guru-a3da8.appspot.com",
+    messagingSenderId: "104690741527",
+    appId: "1:104690741527:web:2440ee44012b7c00a5c752",
+    measurementId: "G-Z5PQ7SNJN2"
+  }
 };
