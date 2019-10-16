@@ -1,0 +1,4 @@
+<button *ngIf="!rowData.is_active; else deactivate" (click)="activate()" nbButton status="success">Activate</button>
+<ng-template #deactivate>
+  <button nbButton (click)="deactivate1()" status="danger">Deactivate</button>
+</ng-template>

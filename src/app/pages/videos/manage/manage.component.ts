@@ -7,6 +7,7 @@ import { CommunicationService } from '../../../services/communication.service';
 import { CommentService } from '../../../services/comment.service';
 import { Subscription } from 'rxjs';
 import { NbDialogService } from '@nebular/theme';
+import { ActivateDeactivateComponent } from '../components/activate-deactivate/activate-deactivate.component';
 
 @Component({
   selector: 'ngx-manage',
@@ -74,6 +75,18 @@ export class ManageComponent implements OnInit {
         type:"custom",
         renderComponent:ViewCommentsBtnComponent,
         filter:false
+      },
+      is_active:{
+        title:"Activate/Deactivate",
+        type:"custom",
+        renderComponent:ActivateDeactivateComponent,
+        filter:{
+          type:"checkbox",
+          config:{
+            true:"true",
+            false:"false"
+          }
+        }
       }
     },
     actions:{
@@ -85,15 +98,29 @@ export class ManageComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   comments:any[];
   viewCommentsSubscription:Subscription;
+  activateDeactivateSubscription:Subscription;
+  deactivateDeactivateSubscription:Subscription;
 
   constructor(private videoService:VideoService, private toastrService:ToastrService, private communicationService:CommunicationService, private commentService:CommentService, private dialogService:NbDialogService) { }
 
   ngOnInit() {
-    this.videoService.getVideos().then(docs=>{
-      docs.forEach(a=>{
-        let d=a.data() as any;
-        d.id=a.id;
-        this.source.append(d);
+    this.loadVideos();
+
+    this.activateDeactivateSubscription=this.communicationService.activateVideoEvent.subscribe(data=>{
+      this.videoService.activate(data.id).then(()=>{
+        this.loadVideos();
+        this.toastrService.showToast("success", "Success", "Video successfully activated");
+      }).catch(err=>{
+        this.toastrService.showToast("danger", "Error", err.message);
+      })
+    })
+
+    this.deactivateDeactivateSubscription=this.communicationService.deactivateVideoEvent.subscribe(data=>{
+      this.videoService.deactivate(data.id).then(()=>{
+        this.loadVideos();
+        this.toastrService.showToast("success", "Success", "Video successfully deactivated");
+      }).catch(err=>{
+        this.toastrService.showToast("danger", "Error", err.message);
       })
     })
 
@@ -112,6 +139,22 @@ export class ManageComponent implements OnInit {
       })
     })
 
+  }
+
+  loadVideos(){
+    this.source.empty().then(()=>{
+      this.videoService.getVideos().then(docs=>{
+        docs.forEach(a=>{
+          let d=a.data() as any;
+          d.id=a.id;
+          this.source.append(d);
+        })
+      }).catch(err=>{
+        this.toastrService.showToast("danger", "Error", err.message);
+      })
+    }).catch(err=>{
+      this.toastrService.showToast("danger", "Error", err.message);
+    })
   }
 
   deleteVideo(event){

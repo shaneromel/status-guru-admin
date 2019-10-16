@@ -12,14 +12,10 @@
 
 <div class="header-container">
   <nb-actions size="small">
-
-    <nb-action class="control-item">
-      <nb-search type="rotate-layout"></nb-search>
-    </nb-action>
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
                [onlyPicture]="userPictureOnly"
-               [name]="user?.name"
+               [name]="user?.email"
                [picture]="user?.picture">
       </nb-user>
     </nb-action>

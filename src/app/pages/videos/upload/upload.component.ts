@@ -38,6 +38,9 @@ export class UploadComponent implements OnInit {
   videoUploadStatus:string;
   thumbnailUploadStatus:string;
 
+  videoUploadTask;
+  thumbnailUploadTask;
+
   title:string;
   description:string;
 
@@ -65,17 +68,18 @@ export class UploadComponent implements OnInit {
       const file = event;
       const filePath = `videos/${file.name}`;
       const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);
+      this.videoUploadTask = this.storage.upload(filePath, file);
 
       // observe percentage changes
-      task.percentageChanges().subscribe(percentage=>{
+      this.videoUploadTask.percentageChanges().subscribe(percentage=>{
         this.videoUploadPercentage=percentage;
       })
       // get notified when the download URL is available
-      task.snapshotChanges().pipe(
+      this.videoUploadTask.snapshotChanges().pipe(
           finalize(() =>{
             fileRef.getDownloadURL().subscribe(url=>{
               this.videoUrl=url;
+              console.log(url);
               this.videoUploadStatus="success";
               this.videoProgressDialogRef.close();
               resolve();
@@ -92,14 +96,14 @@ export class UploadComponent implements OnInit {
       const file = event;
       const filePath = `thumbnail/${file.name}`;
       const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);
+      this.thumbnailUploadTask= this.storage.upload(filePath, file);
 
       // observe percentage changes
-      task.percentageChanges().subscribe(percentage=>{
+      this.thumbnailUploadTask.percentageChanges().subscribe(percentage=>{
         this.thumbnailUploadPercentage=percentage;
       })
       // get notified when the download URL is available
-      task.snapshotChanges().pipe(
+      this.thumbnailUploadTask.snapshotChanges().pipe(
           finalize(() =>{
             fileRef.getDownloadURL().subscribe(url=>{
               this.thumbnailUrl=url;
@@ -113,8 +117,21 @@ export class UploadComponent implements OnInit {
     })
   }
 
+  cancelVideoUpload(){
+    this.videoUploadTask.cancel();
+    this.videoProgressDialogRef.close();
+    this.videoUploadPercentage=0;
+  }
+
+  cancelThumbnailUpload(){
+    this.thumbnailUploadTask.cancel();
+    this.thumbnailProgressDialogRef.cancel();
+    this.thumbnailUploadPercentage=0;
+  }
+
   submitVideo(){
-    this.uploadVideo(this.video).then(()=>{
+    this.uploadVideo(this.video).then(res=>{
+      console.log("video uploaded", res)
       if(this.thumbnail){
         this.uploadThumbnail(this.thumbnail).then(()=>{
           const data={
@@ -122,7 +139,7 @@ export class UploadComponent implements OnInit {
             description:this.description,
             video:this.videoUrl,
             thumbnail:this.thumbnailUrl,
-            is_active:false,
+            is_active:true,
             likes:0,
             comments:0,
             timestamp:Date.now()
@@ -142,7 +159,7 @@ export class UploadComponent implements OnInit {
           title:this.title,
           description:this.description,
           video:this.videoUrl,
-          is_active:false,
+          is_active:true,
           likes:0,
           comments:0,
           timestamp:Date.now()

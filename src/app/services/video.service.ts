@@ -22,4 +22,12 @@ export class VideoService {
     return this.db.doc(`videos/${id}`).delete();
   }
 
+  activate(id){
+    return this.db.doc(`videos/${id}`).update({is_active:true});
+  }
+
+  deactivate(id){
+    return this.db.doc(`videos/${id}`).update({is_active:false});
+  }
+
 }

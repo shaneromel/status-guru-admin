@@ -11,11 +11,15 @@
     <nb-card-header>Comments List</nb-card-header>
     <nb-card-body>
       <div style="width: 500px;">
-          <nb-list>
+          <nb-list *ngIf="comments?.length>0; else empty">
             <nb-list-item *ngFor="let comment of comments">
-              {{comment.message}}
-            </nb-list-item>
+            
+              <nb-user [name]="comment.name" [picture]="comment.image" [title]="comment.message"></nb-user>
+            </nb-list-item> 
           </nb-list>
+          <ng-template #empty>
+            <span>No comments to show</span>
+          </ng-template>
       </div>
     </nb-card-body>
   </nb-card>

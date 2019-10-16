@@ -11,7 +11,7 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
+import { NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken } from '@nebular/auth';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -52,9 +52,22 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
           baseEndpoint:environment.rest_api,
           login:{
             endpoint:"/auth/login"
+          },
+          token:{
+            key:"token",
+            class:NbAuthJWTToken
+          },
+          logout:{
+            endpoint:"/auth/logout",
+            method:"POST"
           }
         })
-      ]
+      ],
+      forms:{
+        login:{
+          rememberMe:false
+        }
+      }
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

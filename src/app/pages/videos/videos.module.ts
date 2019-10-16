@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { VideosRoutingModule } from './videos-routing.module';
 import { UploadComponent } from './upload/upload.component';
-import { NbCardModule, NbInputModule, NbButtonModule, NbProgressBarModule, NbDialogModule, NbListModule } from '@nebular/theme';
+import { NbCardModule, NbInputModule, NbButtonModule, NbProgressBarModule, NbDialogModule, NbListModule, NbUserModule } from '@nebular/theme';
 
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
@@ -12,10 +12,11 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ManageComponent } from './manage/manage.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ViewCommentsBtnComponent } from './components/view-comments-btn/view-comments-btn.component';
+import { ActivateDeactivateComponent } from './components/activate-deactivate/activate-deactivate.component';
 registerPlugin(FilePondPluginFileValidateType);
 
 @NgModule({
-  declarations: [UploadComponent, ManageComponent, ViewCommentsBtnComponent],
+  declarations: [UploadComponent, ManageComponent, ViewCommentsBtnComponent, ActivateDeactivateComponent],
   imports: [
     CommonModule,
     VideosRoutingModule,
@@ -28,8 +29,9 @@ registerPlugin(FilePondPluginFileValidateType);
     NbProgressBarModule,
     NbDialogModule,
     Ng2SmartTableModule,
-    NbListModule
+    NbListModule,
+    NbUserModule
   ],
-  entryComponents:[ViewCommentsBtnComponent]
+  entryComponents:[ViewCommentsBtnComponent, ActivateDeactivateComponent]
 })
 export class VideosModule { }

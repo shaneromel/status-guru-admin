@@ -10,7 +10,7 @@
 
 export const environment = {
   production: false,
-  rest_api:"http://localhost:3000",
+  rest_api:"https://infinite-inlet-29699.herokuapp.com",
   firebase:{
     apiKey: "AIzaSyAaRppvzkdPEhqK9TS_wMYqQ2juCdI60QY",
     authDomain: "status-guru-a3da8.firebaseapp.com",

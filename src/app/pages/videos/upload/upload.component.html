@@ -44,6 +44,9 @@
     <nb-card-body>
         <nb-progress-bar [value]="videoUploadPercentage" [status]="videoUploadStatus">{{videoUploadPercentage | number : '1.0-0'}}%</nb-progress-bar>
     </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="cancelVideoUpload()" status="danger">Cancel</button>
+    </nb-card-footer>
   </nb-card>
 </ng-template>
 
@@ -53,5 +56,8 @@
     <nb-card-body>
         <nb-progress-bar [value]="thumbnailUploadPercentage" [status]="thumbnailUploadStatus">{{thumbnailUploadPercentage | number : '1.0-0'}}%</nb-progress-bar>
     </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="cancelThumbnailUpload()" status="danger">Cancel</button>
+    </nb-card-footer>
   </nb-card>
 </ng-template>
